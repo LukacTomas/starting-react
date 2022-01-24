@@ -9,10 +9,15 @@ import {
 } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 
+let renderTableCount = 0;
+
 const PokemonTable = () => {
   const pokemons = useSelector((state) => state.pokemons);
   const filter = useSelector((state) => state.filter);
   const dispatch = useDispatch();
+
+  console.log({ renderTableCount: renderTableCount++ });
+
   return (
     <Table width="100%">
       <TableHead>

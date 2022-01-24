@@ -10,9 +10,13 @@ import PokemonHeading from "./Components/PokemonHeading";
 import store from "./Store";
 import { Provider, useSelector, useDispatch } from "react-redux";
 
+let renderCountApp = 0;
+
 function App() {
   const dispatch = useDispatch();
   const pokemons = useSelector((state) => state.pokemons);
+
+  console.log(renderCountApp++);
 
   React.useEffect(() => {
     fetch("http://localhost:3000/starting-react/pokemon.json")

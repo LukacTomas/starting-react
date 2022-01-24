@@ -28,4 +28,7 @@ const pokemonReducer = (state = initialState, action) => {
   }
 };
 
+const selectedPokemon = (state) => state.selectedItem;
+export { selectedPokemon };
+
 export default pokemonReducer;

@@ -7,4 +7,4 @@ const PokemonSelected = () => {
   return <>{state.selectedItem && <PokemonInfo />}</>;
 };
 
-export default PokemonSelected;
+export default React.memo(PokemonSelected);
