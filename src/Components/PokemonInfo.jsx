@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Button,
   Table,
@@ -10,34 +10,49 @@ import {
 } from "@material-ui/core";
 
 import PropTypes from "prop-types";
+import PokemonContext from "../PokemonContext";
 
-const PokemonInfo = ({ name, base, onClose }) => (
-  <>
-    <Typography variant="h3" color="secondary" align="center">
-      {name.english}
-    </Typography>
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell>Feature</TableCell>
-          <TableCell>#</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {Object.keys(base).map((key) => (
-          <TableRow key={key}>
-            <TableCell>{key}</TableCell>
-            <TableCell>{base[key]}</TableCell>
+const PokemonInfo = () => {
+  const {
+    selectedItem: {
+      name: { english },
+      base,
+    },
+    setSelectedItem,
+  } = useContext(PokemonContext);
+
+  return (
+    <>
+      <Typography variant="h3" color="secondary" align="center">
+        {english}
+      </Typography>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Feature</TableCell>
+            <TableCell>#</TableCell>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHead>
+        <TableBody>
+          {Object.keys(base).map((key) => (
+            <TableRow key={key}>
+              <TableCell>{key}</TableCell>
+              <TableCell>{base[key]}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
 
-    <Button color="secondary" variant="outlined" onClick={onClose}>
-      Close
-    </Button>
-  </>
-);
+      <Button
+        color="secondary"
+        variant="outlined"
+        onClick={() => setSelectedItem(null)}
+      >
+        Close
+      </Button>
+    </>
+  );
+};
 
 export default PokemonInfo;
 

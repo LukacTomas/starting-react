@@ -1,18 +1,13 @@
 import React, { useState } from "react";
 import "./App.css";
-import {
-  Grid,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
-import PokemonRow from "./Components/PokemonRow";
-import PokemonInfo from "./Components/PokemonInfo";
 import PokemonFilter from "./Components/PokemonFilter";
+import PokemonTable from "./Components/PokemonTable";
+import PokemonSelected from "./Components/PokemonSelected";
+import PokemonHeading from "./Components/PokemonHeading";
+
+import PokemonContext from "./PokemonContext";
 
 function App() {
   const [filter, setFilter] = useState("");
@@ -25,6 +20,10 @@ function App() {
       .then((pokemons) => setPokemons(pokemons));
   }, []);
 
+  if (!pokemons || pokemons.length === 0) {
+    return <>Loading....</>;
+  }
+
   return (
     <Grid
       container
@@ -35,45 +34,27 @@ function App() {
         margin: "auto",
       }}
     >
-      <Typography color="primary" variant="h1" align="center">
-        Pokemon search
-      </Typography>
-      <PokemonFilter filter={filter} setFilter={setFilter} />
-      <Grid container spacing={2}>
-        <Grid item sm={12} md={8}>
-          <Table width="100%">
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Type</TableCell>
-                <TableCell>Selection</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {pokemons
-                .filter(({ name }) =>
-                  name.english.toLowerCase().includes(filter)
-                )
-                .slice(0, 20)
-                .map((pokemon) => (
-                  <PokemonRow
-                    key={pokemon.id}
-                    pokemon={pokemon}
-                    onSelect={(pokemon) => setSelectedItem(pokemon)}
-                  />
-                ))}
-            </TableBody>
-          </Table>
+      <PokemonContext.Provider
+        value={{
+          filter,
+          setFilter,
+          selectedItem,
+          setSelectedItem,
+          pokemons,
+          setPokemons,
+        }}
+      >
+        <PokemonHeading />
+        <PokemonFilter />
+        <Grid container spacing={2}>
+          <Grid item sm={12} md={8}>
+            <PokemonTable />
+          </Grid>
+          <Grid item sm={12} md={4}>
+            <PokemonSelected />
+          </Grid>
         </Grid>
-        <Grid item sm={12} md={4}>
-          {selectedItem && (
-            <PokemonInfo
-              {...selectedItem}
-              onClose={() => setSelectedItem(null)}
-            />
-          )}
-        </Grid>
-      </Grid>
+      </PokemonContext.Provider>
     </Grid>
   );
 }
