@@ -15,55 +15,7 @@ import {
 } from "@material-ui/core";
 
 import PokemonRow from "./PokemonRow";
-
-const PokemonInfo = ({ name, base, onClose }) => (
-  <>
-    <Typography variant="h3" color="secondary" align="center">
-      {name.english}
-    </Typography>
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell>Feature</TableCell>
-          <TableCell>#</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {Object.keys(base).map((key) => (
-          <TableRow key={key}>
-            <TableCell>{key}</TableCell>
-            <TableCell>{base[key]}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-
-    <Button color="secondary" variant="outlined" onClick={onClose}>
-      Close
-    </Button>
-  </>
-);
-
-PokemonInfo.propTypes = {
-  name: PropTypes.shape({
-    english: PropTypes.string,
-  }),
-  base: PropTypes.shape({
-    HP: PropTypes.number.isRequired,
-    Attack: PropTypes.number.isRequired,
-    Defense: PropTypes.number.isRequired,
-    Speed: PropTypes.number.isRequired,
-    "Sp. Attack": PropTypes.number.isRequired,
-    "Sp. Defense": PropTypes.number.isRequired,
-  }),
-  onClose: PropTypes.func,
-};
-
-const Container = styled.div`
-  margin: auto;
-  width: 800px;
-  padding-top: 1rem;
-`;
+import PokemonInfo from "./PokemonInfo";
 
 class App extends React.Component {
   constructor(props) {
