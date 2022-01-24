@@ -5,6 +5,7 @@ import styled from "@emotion/styled";
 import {
   Button,
   Grid,
+  Table,
   TableBody,
   TableCell,
   TableHead,
@@ -13,33 +14,7 @@ import {
   Typography,
 } from "@material-ui/core";
 
-import Table from "@material-ui/core/Table";
-
-const PokemonRow = ({ pokemon, onSelect }) => (
-  <TableRow>
-    <TableCell>{pokemon.name.english}</TableCell>
-    <TableCell>{pokemon.type.join(", ")}</TableCell>
-    <TableCell>
-      <Button
-        color="primary"
-        variant="contained"
-        onClick={() => onSelect(pokemon)}
-      >
-        Select
-      </Button>
-    </TableCell>
-  </TableRow>
-);
-
-PokemonRow.propTypes = {
-  pokemon: PropTypes.shape({
-    type: PropTypes.arrayOf(PropTypes.string),
-    name: PropTypes.shape({
-      english: PropTypes.string,
-    }),
-  }),
-  onSelect: PropTypes.func,
-};
+import PokemonRow from "./PokemonRow";
 
 const PokemonInfo = ({ name, base, onClose }) => (
   <>
