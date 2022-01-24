@@ -3,8 +3,8 @@ import PokemonContext from "../PokemonContext";
 import PokemonInfo from "./PokemonInfo";
 
 const PokemonSelected = () => {
-  const { selectedItem } = useContext(PokemonContext);
-  return <>{selectedItem && <PokemonInfo />}</>;
+  const { state } = useContext(PokemonContext);
+  return <>{state.selectedItem && <PokemonInfo />}</>;
 };
 
 export default PokemonSelected;

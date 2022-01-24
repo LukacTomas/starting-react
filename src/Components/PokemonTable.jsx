@@ -10,7 +10,7 @@ import {
 import PokemonContext from "../PokemonContext";
 
 const PokemonTable = () => {
-  const { pokemons, filter, setSelectedItem } = useContext(PokemonContext);
+  const { state, dispach } = useContext(PokemonContext);
 
   return (
     <Table width="100%">
@@ -22,14 +22,21 @@ const PokemonTable = () => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {pokemons
-          .filter(({ name }) => name.english.toLowerCase().includes(filter))
+        {state.pokemons
+          .filter(({ name }) =>
+            name.english.toLowerCase().includes(state.filter)
+          )
           .slice(0, 20)
           .map((pokemon) => (
             <PokemonRow
               key={pokemon.id}
               pokemon={pokemon}
-              onSelect={(pokemon) => setSelectedItem(pokemon)}
+              onSelect={(pokemon) =>
+                dispach({
+                  type: "SET_SELECTED_POKEMON",
+                  payload: pokemon,
+                })
+              }
             />
           ))}
       </TableBody>

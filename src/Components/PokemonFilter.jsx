@@ -3,16 +3,21 @@ import { TextField } from "@material-ui/core";
 import PokemonContext from "../PokemonContext";
 
 const PokemonFilter = () => {
-  const { filter, setFilter } = useContext(PokemonContext);
+  const { state, dispach } = useContext(PokemonContext);
   return (
     <TextField
       label="Filter pokemons"
       variant="filled"
-      value={filter}
+      value={state.filter}
       style={{
         width: "100%",
       }}
-      onChange={({ target }) => setFilter(target.value.toLowerCase())}
+      onChange={({ target }) =>
+        dispach({
+          type: "SET_FILTER",
+          payload: target.value.toLocaleLowerCase(),
+        })
+      }
     />
   );
 };

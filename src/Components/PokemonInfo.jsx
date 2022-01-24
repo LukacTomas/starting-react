@@ -14,11 +14,10 @@ import PokemonContext from "../PokemonContext";
 
 const PokemonInfo = () => {
   const {
-    selectedItem: {
-      name: { english },
-      base,
+    state: {
+      selectedItem: { english, base },
     },
-    setSelectedItem,
+    dispach,
   } = useContext(PokemonContext);
 
   return (
@@ -46,7 +45,12 @@ const PokemonInfo = () => {
       <Button
         color="secondary"
         variant="outlined"
-        onClick={() => setSelectedItem(null)}
+        onClick={() =>
+          dispach({
+            type: "SET_SELECTED_POKEMON",
+            payload: null,
+          })
+        }
       >
         Close
       </Button>

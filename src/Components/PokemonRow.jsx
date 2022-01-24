@@ -2,7 +2,6 @@ import React from "react";
 import { Button, TableCell, TableRow } from "@material-ui/core";
 
 import PropTypes from "prop-types";
-import PokemonContext from "../PokemonContext";
 
 const PokemonRow = ({ pokemon, onSelect }) => {
   return (

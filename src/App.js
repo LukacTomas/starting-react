@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useReducer, useState } from "react";
 import "./App.css";
 import { Grid } from "@material-ui/core";
 
@@ -8,19 +8,29 @@ import PokemonSelected from "./Components/PokemonSelected";
 import PokemonHeading from "./Components/PokemonHeading";
 
 import PokemonContext from "./PokemonContext";
+import pokemonReducer from "./PokemonReducer";
+
+const initialState = {
+  pokemon: [],
+  filter: "",
+  selectedItem: null,
+};
 
 function App() {
-  const [filter, setFilter] = useState("");
-  const [pokemons, setPokemons] = useState([]);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [state, dispach] = useReducer(pokemonReducer, initialState);
 
   React.useEffect(() => {
     fetch("http://localhost:3000/starting-react/pokemon.json")
       .then((r) => r.json())
-      .then((pokemons) => setPokemons(pokemons));
+      .then((pokemons) =>
+        dispach({
+          type: "SET_POKEMONS",
+          payload: pokemons,
+        })
+      );
   }, []);
 
-  if (!pokemons || pokemons.length === 0) {
+  if (!state.pokemons || state.pokemons.length === 0) {
     return <>Loading....</>;
   }
 
@@ -36,12 +46,8 @@ function App() {
     >
       <PokemonContext.Provider
         value={{
-          filter,
-          setFilter,
-          selectedItem,
-          setSelectedItem,
-          pokemons,
-          setPokemons,
+          state,
+          dispach,
         }}
       >
         <PokemonHeading />
