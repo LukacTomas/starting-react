@@ -1,9 +1,6 @@
 import React from "react";
 import "./App.css";
-import PropTypes from "prop-types";
-import styled from "@emotion/styled";
 import {
-  Button,
   Grid,
   Table,
   TableBody,
@@ -115,63 +112,6 @@ class App extends React.Component {
       </Grid>
     );
   }
-}
-
-function App2() {
-  const [filter, setFilter] = React.useState("");
-  const [selectedItem, selectItemSet] = React.useState(null);
-  const [pokemons, setPokemons] = React.useState([]);
-
-  React.useEffect(() => {
-    fetch("http://localhost:3000/starting-react/pokemon.json")
-      .then((r) => r.json())
-      .then((p) => setPokemons(p));
-  }, []);
-
-  return (
-    <Container>
-      <Title>Pokemon search</Title>
-      <TextInput
-        type="text"
-        value={filter}
-        onChange={({ target }) => setFilter(target.value.toLowerCase())}
-      />
-      <TwoColumnLayout>
-        <div>
-          <table width="100%">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Type</th>
-              </tr>
-            </thead>
-            <tbody>
-              {pokemons
-                .filter(({ name }) =>
-                  name.english.toLowerCase().includes(filter)
-                )
-                .slice(0, 20)
-                .map((pokemon) => (
-                  <PokemonRow
-                    key={pokemon.id}
-                    pokemon={pokemon}
-                    onSelect={(pokemon) => selectItemSet(pokemon)}
-                  />
-                ))}
-            </tbody>
-          </table>
-        </div>
-        <div>
-          {selectedItem && (
-            <PokemonInfo
-              {...selectedItem}
-              onClose={() => selectItemSet(null)}
-            />
-          )}
-        </div>
-      </TwoColumnLayout>
-    </Container>
-  );
 }
 
 export default App;
