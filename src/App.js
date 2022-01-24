@@ -11,8 +11,8 @@ import {
   Typography,
 } from "@material-ui/core";
 
-import PokemonRow from "./PokemonRow";
-import PokemonInfo from "./PokemonInfo";
+import PokemonRow from "./Components/PokemonRow";
+import PokemonInfo from "./Components/PokemonInfo";
 
 class App extends React.Component {
   constructor(props) {
