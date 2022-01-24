@@ -7,12 +7,12 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  TextField,
   Typography,
 } from "@material-ui/core";
 
 import PokemonRow from "./Components/PokemonRow";
 import PokemonInfo from "./Components/PokemonInfo";
+import PokemonFilter from "./Components/PokemonFilter";
 
 function App() {
   const [filter, setFilter] = useState("");
@@ -38,15 +38,7 @@ function App() {
       <Typography color="primary" variant="h1" align="center">
         Pokemon search
       </Typography>
-      <TextField
-        label="Filter pokemons"
-        variant="filled"
-        value={filter}
-        style={{
-          width: "100%",
-        }}
-        onChange={({ target }) => setFilter(target.value.toLowerCase())}
-      />
+      <PokemonFilter filter={filter} setFilter={setFilter} />
       <Grid container spacing={2}>
         <Grid item sm={12} md={8}>
           <Table width="100%">
