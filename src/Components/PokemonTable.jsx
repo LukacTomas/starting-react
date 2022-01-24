@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import PokemonRow from "./PokemonRow";
 import {
   Table,
@@ -7,11 +7,12 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
-import PokemonContext from "../PokemonContext";
+import { useSelector, useDispatch } from "react-redux";
 
 const PokemonTable = () => {
-  const { state, dispach } = useContext(PokemonContext);
-
+  const pokemons = useSelector((state) => state.pokemons);
+  const filter = useSelector((state) => state.filter);
+  const dispatch = useDispatch();
   return (
     <Table width="100%">
       <TableHead>
@@ -22,17 +23,15 @@ const PokemonTable = () => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {state.pokemons
-          .filter(({ name }) =>
-            name.english.toLowerCase().includes(state.filter)
-          )
+        {pokemons
+          .filter(({ name }) => name.english.toLowerCase().includes(filter))
           .slice(0, 20)
           .map((pokemon) => (
             <PokemonRow
               key={pokemon.id}
               pokemon={pokemon}
               onSelect={(pokemon) =>
-                dispach({
+                dispatch({
                   type: "SET_SELECTED_POKEMON",
                   payload: pokemon,
                 })

@@ -1,4 +1,9 @@
-const pokemonReducer = (state, action) => {
+const initialState = {
+  pokemon: [],
+  filter: "",
+  selectedItem: null,
+};
+const pokemonReducer = (state = initialState, action) => {
   switch (action.type) {
     case "SET_FILTER":
       return {
@@ -19,7 +24,7 @@ const pokemonReducer = (state, action) => {
       };
 
     default:
-      throw new Error("No action");
+      return state;
   }
 };
 

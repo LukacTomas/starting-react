@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   Button,
   Table,
@@ -10,16 +10,12 @@ import {
 } from "@material-ui/core";
 
 import PropTypes from "prop-types";
-import PokemonContext from "../PokemonContext";
+import { useDispatch, useSelector } from "react-redux";
 
 const PokemonInfo = () => {
-  const {
-    state: {
-      selectedItem: { english, base },
-    },
-    dispach,
-  } = useContext(PokemonContext);
-
+  const english = useSelector((state) => state.selectedItem.name.english);
+  const base = useSelector((state) => state.selectedItem.base);
+  const dispatch = useDispatch();
   return (
     <>
       <Typography variant="h3" color="secondary" align="center">
@@ -46,7 +42,7 @@ const PokemonInfo = () => {
         color="secondary"
         variant="outlined"
         onClick={() =>
-          dispach({
+          dispatch({
             type: "SET_SELECTED_POKEMON",
             payload: null,
           })

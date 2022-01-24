@@ -7,30 +7,25 @@ import PokemonTable from "./Components/PokemonTable";
 import PokemonSelected from "./Components/PokemonSelected";
 import PokemonHeading from "./Components/PokemonHeading";
 
-import PokemonContext from "./PokemonContext";
-import pokemonReducer from "./PokemonReducer";
-
-const initialState = {
-  pokemon: [],
-  filter: "",
-  selectedItem: null,
-};
+import store from "./Store";
+import { Provider, useSelector, useDispatch } from "react-redux";
 
 function App() {
-  const [state, dispach] = useReducer(pokemonReducer, initialState);
+  const dispatch = useDispatch();
+  const pokemons = useSelector((state) => state.pokemons);
 
   React.useEffect(() => {
     fetch("http://localhost:3000/starting-react/pokemon.json")
       .then((r) => r.json())
-      .then((pokemons) =>
-        dispach({
+      .then((pokemons) => {
+        dispatch({
           type: "SET_POKEMONS",
           payload: pokemons,
-        })
-      );
+        });
+      });
   }, []);
 
-  if (!state.pokemons || state.pokemons.length === 0) {
+  if (!pokemons || pokemons.length === 0) {
     return <>Loading....</>;
   }
 
@@ -44,25 +39,22 @@ function App() {
         margin: "auto",
       }}
     >
-      <PokemonContext.Provider
-        value={{
-          state,
-          dispach,
-        }}
-      >
-        <PokemonHeading />
-        <PokemonFilter />
-        <Grid container spacing={2}>
-          <Grid item sm={12} md={8}>
-            <PokemonTable />
-          </Grid>
-          <Grid item sm={12} md={4}>
-            <PokemonSelected />
-          </Grid>
+      <PokemonHeading />
+      <PokemonFilter />
+      <Grid container spacing={2}>
+        <Grid item sm={12} md={8}>
+          <PokemonTable />
         </Grid>
-      </PokemonContext.Provider>
+        <Grid item sm={12} md={4}>
+          <PokemonSelected />
+        </Grid>
+      </Grid>
     </Grid>
   );
 }
 
-export default App;
+export default () => (
+  <Provider store={store}>
+    <App />
+  </Provider>
+);
