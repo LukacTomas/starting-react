@@ -2,14 +2,24 @@ import React from "react";
 import "./App.css";
 import PropTypes from "prop-types";
 import styled from "@emotion/styled";
-import Button from "@material-ui/core/Button";
+import {
+  Button,
+  Grid,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  TextField,
+  Typography,
+} from "@material-ui/core";
+
+import Table from "@material-ui/core/Table";
 
 const PokemonRow = ({ pokemon, onSelect }) => (
-  <tr>
-    <td>{pokemon.name.english}</td>
-    <td>{pokemon.type.join(", ")}</td>
-    <td>
-      {" "}
+  <TableRow>
+    <TableCell>{pokemon.name.english}</TableCell>
+    <TableCell>{pokemon.type.join(", ")}</TableCell>
+    <TableCell>
       <Button
         color="primary"
         variant="contained"
@@ -17,8 +27,8 @@ const PokemonRow = ({ pokemon, onSelect }) => (
       >
         Select
       </Button>
-    </td>
-  </tr>
+    </TableCell>
+  </TableRow>
 );
 
 PokemonRow.propTypes = {
@@ -32,29 +42,31 @@ PokemonRow.propTypes = {
 };
 
 const PokemonInfo = ({ name, base, onClose }) => (
-  <div>
-    <h2>{name.english}</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Feature</th>
-          <th>#</th>
-        </tr>
-      </thead>
-      <tbody>
+  <>
+    <Typography variant="h3" color="secondary" align="center">
+      {name.english}
+    </Typography>
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell>Feature</TableCell>
+          <TableCell>#</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
         {Object.keys(base).map((key) => (
-          <tr key={key}>
-            <td>{key}</td>
-            <td>{base[key]}</td>
-          </tr>
+          <TableRow key={key}>
+            <TableCell>{key}</TableCell>
+            <TableCell>{base[key]}</TableCell>
+          </TableRow>
         ))}
-      </tbody>
-    </table>
+      </TableBody>
+    </Table>
 
     <Button color="secondary" variant="outlined" onClick={onClose}>
       Close
     </Button>
-  </div>
+  </>
 );
 
 PokemonInfo.propTypes = {
@@ -72,58 +84,10 @@ PokemonInfo.propTypes = {
   onClose: PropTypes.func,
 };
 
-const Title = styled.h1`
-  text-align: center;
-  color: navy;
-`;
-
-const TwoColumnLayout = styled.div`
-  display: grid;
-  grid-template-columns: 60% 40%;
-  grid-column-gap: 1rem;
-`;
-
 const Container = styled.div`
   margin: auto;
   width: 800px;
   padding-top: 1rem;
-`;
-
-const TextInput = styled.input`
-  width: 100%;
-  font-size: x-large;
-  padding: 0.2rem;
-`;
-
-const MyButton = styled.button`
-  border: none;
-  border-radius: 4px;
-  padding: 0 16px;
-  min-width: 64px;
-  height: 36px;
-  vertical-align: middle;
-  text-align: center;
-  text-overflow: ellipsis;
-  text-transform: uppercase;
-  color: rgb(var(--pure-material-onprimary-rgb, 255, 255, 255));
-  background-color: rgb(var(--pure-material-primary-rgb, 33, 150, 243));
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  font-family: var(
-    --pure-material-font,
-    "Roboto",
-    "Segoe UI",
-    BlinkMacSystemFont,
-    system-ui,
-    -apple-system
-  );
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 36px;
-  overflow: hidden;
-  outline: none;
-  cursor: pointer;
-  transition: box-shadow 0.2s;
 `;
 
 class App extends React.Component {
@@ -165,23 +129,38 @@ class App extends React.Component {
 
   render() {
     return (
-      <Container>
-        <Title>Pokemon search</Title>
-        <TextInput
-          type="text"
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        style={{
+          width: 800,
+          margin: "auto",
+        }}
+      >
+        <Typography color="primary" variant="h1" align="center">
+          Pokemon search
+        </Typography>
+        <TextField
+          label="Filter pokemons"
+          variant="filled"
           value={this.state.filter}
+          style={{
+            width: "100%",
+          }}
           onChange={({ target }) => this.setFilter(target.value.toLowerCase())}
         />
-        <TwoColumnLayout>
-          <div>
-            <table width="100%">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Type</th>
-                </tr>
-              </thead>
-              <tbody>
+        <Grid container spacing={2}>
+          <Grid item sm={12} md={8}>
+            <Table width="100%">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Type</TableCell>
+                  <TableCell>Selection</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
                 {this.state.pokemons
                   .filter(({ name }) =>
                     name.english.toLowerCase().includes(this.state.filter)
@@ -194,19 +173,19 @@ class App extends React.Component {
                       onSelect={(pokemon) => this.setSelectedItem(pokemon)}
                     />
                   ))}
-              </tbody>
-            </table>
-          </div>
-          <div>
+              </TableBody>
+            </Table>
+          </Grid>
+          <Grid item sm={12} md={4}>
             {this.state.selectedItem && (
               <PokemonInfo
                 {...this.state.selectedItem}
                 onClose={() => this.setSelectedItem(null)}
               />
             )}
-          </div>
-        </TwoColumnLayout>
-      </Container>
+          </Grid>
+        </Grid>
+      </Grid>
     );
   }
 }
